@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="cn.tedu.store.mapper.UserMapper">
+	<insert id="insert" parameterType="cn.tedu.store.entiy.User"
+        useGeneratedKeys="true"
+        keyProperty="id">
+        INSERT INTO t_user (
+            username, password,
+            avatar, gender,
+            phone, email,
+            salt,is_delete,
+            created_user, created_time,
+            modified_user, modified_time
+        ) VALUES (
+            #{username}, #{password},
+            #{avatar}, #{gender},
+            #{phone}, #{email},
+            #{salt},#{isDelete},
+            #{createdUser}, #{createdTime},
+            #{modifiedUser}, #{modifiedTime}
+        )
+    </insert>
+	<delete id="deleteById">
+		delete from t_user where id=#{id}
+	</delete>
+	<select id="findUserByUsername" resultType="cn.tedu.store.entiy.User">
+        SELECT 
+            id, username, password, salt
+        FROM 
+            t_user
+        WHERE 
+            username=#{username}
+    </select>
+    
+    <select id="findUserById" resultType="cn.tedu.store.entiy.User">
+    	select username,password,salt,gender,phone,email from t_user where id=#{id}
+    </select>
+    
+    <update id="updataPassword">
+    	update t_user set password=#{password} where id = #{id}
+    </update>
+	
+	 <update id="updateInfo" parameterType="cn.tedu.store.entiy.User">
+    	update t_user 
+    	set 
+    	<if test="gender!=null">
+    		gender=#{gender},
+    	</if>
+    	<if test="gender!=null">
+    		phone=#{phone},
+    	</if>
+    	<if test="gender!=null">
+    		email=#{email},
+    	</if>
+    		created_user=#{username}
+    	
+    	
+ 	   	 where id = #{id}
+    </update>
+    
+    <update id="updateAvatart">
+    	update t_user set avatar=#{avatart} where id = #{id}
+    </update>
+</mapper>
